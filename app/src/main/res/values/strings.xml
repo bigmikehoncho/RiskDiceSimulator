@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Risk Dice Simulator</string>
+
+    <string name="result_title">Result</string>
+    <string name="roll_dice">Roll Dice</string>
+    <string name="roll_dice_with_pause">Roll Tempo Dice</string>
+    <string name="attack_complete">Simulate All</string>
+
+    <string name="attacker_unit_count">Attackers</string>
+    <string name="defender_unit_count">Defenders</string>
+    <string name="attacker_lower_limit">Attacker\nSafety</string>
+    <string name="units_lost">Lost</string>
+    <string name="units_remaining">Remaining</string>
+
+    <string name="attack_pause">Pause</string>
+    <string name="attack_continue">Continue</string>
+</resources>

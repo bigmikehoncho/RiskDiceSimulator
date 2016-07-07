@@ -1,0 +1,110 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="bigmikehoncho.com.riskdicesimulator.MainActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_margins"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <LinearLayout
+                android:id="@+id/layout_attacker_unit_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewTitles"
+                    android:text="@string/attacker_unit_count"/>
+
+                <NumberPicker
+                    android:id="@+id/numberPicker_attackerUnitCount"
+                    style="@style/MyNumberPicker" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_defender_unit_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewTitles"
+                    android:text="@string/defender_unit_count"/>
+
+                <NumberPicker
+                    android:id="@+id/numberPicker_defenderUnitCount"
+                    style="@style/MyNumberPicker"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_attacker_lower_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewTitles"
+                    android:text="@string/attacker_lower_limit"/>
+
+                <NumberPicker
+                    android:id="@+id/numberPicker_attackerLimit"
+                    style="@style/MyNumberPicker" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            style="?metaButtonBarStyle"
+            android:id="@+id/fullscreen_content_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <Button
+                android:id="@+id/btn_roll_dice"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/roll_dice"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</FrameLayout>
