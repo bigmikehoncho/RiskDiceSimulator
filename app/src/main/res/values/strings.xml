@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Risk Dice Simulator</string>
 
+    <string name="menu_main_title">Results</string>
+
     <string name="result_title">Result</string>
-    <string name="roll_dice">Roll Dice</string>
+    <string name="roll_dice">Resolve Attack</string>
     <string name="roll_dice_with_pause">Roll Tempo Dice</string>
     <string name="attack_complete">Simulate All</string>
 
@@ -14,4 +16,8 @@
 
     <string name="attack_pause">Pause</string>
     <string name="attack_continue">Continue</string>
+
+    <string name="warning_attack_not_possible">Attack is not possible, please adjust set up.</string>
+    <string name="title_activity_results">Results</string>
+    <string name="action_settings">Settings</string>
 </resources>

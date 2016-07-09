@@ -132,7 +132,7 @@ public class RiskDiceSimulator {
         return attackerLimit;
     }
 
-    public void setAttackerLimit(int attackerLimit) {
+    public void setAttackerSafety(int attackerLimit) {
         this.attackerLimit = attackerLimit;
     }
 

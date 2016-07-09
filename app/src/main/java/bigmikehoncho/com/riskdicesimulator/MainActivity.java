@@ -1,10 +1,14 @@
 package bigmikehoncho.com.riskdicesimulator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -14,10 +18,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String STATE_SAFETY = "safety";
 
     private RiskDiceSimulator mDiceSimulator;
-    private ResultDialog mResultDialog;
+    private ResolveAttackDialog mResolveAttackDialog;
 
     private Button btnRollDice;
-    private Button btnRollDiceWithPause;
     private NumberPicker npAttackerUnitCount;
     private NumberPicker npDefenderUnitCount;
     private NumberPicker npAttackerSafety;
@@ -50,8 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setFields(){
-        btnRollDice = (Button) findViewById(R.id.btn_roll_dice);
-        btnRollDiceWithPause = (Button) findViewById(R.id.btn_roll_dice_with_pause);
+        btnRollDice = (Button) findViewById(R.id.btn_resolve_attack);
         npAttackerUnitCount = (NumberPicker) findViewById(R.id.numberPicker_attackerUnitCount);
         npDefenderUnitCount = (NumberPicker) findViewById(R.id.numberPicker_defenderUnitCount);
         npAttackerSafety = (NumberPicker) findViewById(R.id.numberPicker_attackerLimit);
@@ -64,50 +66,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         npAttackerSafety.setMaxValue(200);
 
         btnRollDice.setOnClickListener(this);
-        btnRollDiceWithPause.setOnClickListener(this);
     }
 
     private void setUI(){
     }
 
-    private void rollDice(){
-        mDiceSimulator.clear();
-        mDiceSimulator.setAttackerUnitCount(npAttackerUnitCount.getValue());
-        mDiceSimulator.setDefenderUnitCount(npDefenderUnitCount.getValue());
-        mDiceSimulator.setAttackerLimit(npAttackerSafety.getValue());
-
-        mDiceSimulator.rollDice();
-
-        mResultDialog = new ResultDialog();
-        Bundle args = new Bundle();
-        args.putLong(ResultDialog.ARG_PAUSE_TIME, 0);
-        mResultDialog.setArguments(args);
-        mResultDialog.setDiceSimulator(mDiceSimulator);
-        mResultDialog.show(getSupportFragmentManager(), "results");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
-    private void rollDiceWithPause(){
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_results:
+                Intent intent = new Intent(this, ResultsActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void resolveAttack(){
         mDiceSimulator.clear();
         mDiceSimulator.setAttackerUnitCount(npAttackerUnitCount.getValue());
         mDiceSimulator.setDefenderUnitCount(npDefenderUnitCount.getValue());
-        mDiceSimulator.setAttackerLimit(npAttackerSafety.getValue());
+        mDiceSimulator.setAttackerSafety(npAttackerSafety.getValue());
 
-        mResultDialog = new ResultDialog();
-        Bundle args = new Bundle();
-        args.putLong(ResultDialog.ARG_PAUSE_TIME, 2000);
-        mResultDialog.setArguments(args);
-        mResultDialog.setDiceSimulator(mDiceSimulator);
-        mResultDialog.show(getSupportFragmentManager(), "results");
+        if(mDiceSimulator.isAttackPossible()) {
+            mResolveAttackDialog = new ResolveAttackDialog();
+            Bundle args = new Bundle();
+            mResolveAttackDialog.setArguments(args);
+            mResolveAttackDialog.setDiceSimulator(mDiceSimulator);
+            mResolveAttackDialog.show(getSupportFragmentManager(), "results");
+        } else {
+            Toast.makeText(this, R.string.warning_attack_not_possible, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_roll_dice:
-                rollDice();
-                break;
-            case R.id.btn_roll_dice_with_pause:
-                rollDiceWithPause();
+            case R.id.btn_resolve_attack:
+                resolveAttack();
                 break;
         }
     }

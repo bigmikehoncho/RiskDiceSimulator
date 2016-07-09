@@ -30,7 +30,7 @@
 
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/attacker_unit_count"/>
+                    android:text="@string/attacker_unit_count" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_attackerUnitCount"
@@ -47,11 +47,11 @@
 
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/defender_unit_count"/>
+                    android:text="@string/defender_unit_count" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_defenderUnitCount"
-                    style="@style/MyNumberPicker"/>
+                    style="@style/MyNumberPicker" />
 
             </LinearLayout>
 
@@ -65,7 +65,7 @@
 
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/attacker_lower_limit"/>
+                    android:text="@string/attacker_lower_limit" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_attackerLimit"
@@ -85,8 +85,8 @@
         android:fitsSystemWindows="true">
 
         <LinearLayout
-            style="?metaButtonBarStyle"
             android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
@@ -95,13 +95,13 @@
             tools:ignore="UselessParent">
 
             <Button
-                android:id="@+id/btn_roll_dice"
+                android:id="@+id/btn_resolve_attack"
                 style="?metaButtonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/roll_dice"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
 
