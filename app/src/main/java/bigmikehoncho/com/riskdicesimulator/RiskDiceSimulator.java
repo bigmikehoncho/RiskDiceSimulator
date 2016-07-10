@@ -1,5 +1,6 @@
 package bigmikehoncho.com.riskdicesimulator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -9,17 +10,17 @@ import java.util.logging.Logger;
  * Dice roll simulator for the game of Risk.  Roll large amounts of attacks at once and get results quickly.
  * Use setters to set the amount of attackers and defenders
  */
-public class RiskDiceSimulator {
-    private Logger logger;
+public class RiskDiceSimulator implements Serializable{
+    private static final Logger logger = Logger.getLogger(RiskDiceSimulator.class.getName());;
 
     private int attackerUnitCount;
     private int defenderUnitCount;
-    private int attackerLimit;
+    private int attackerSafety;
+    private int defenderSafety;
     private int attackersLost;
     private int defendersLost;
 
     public RiskDiceSimulator() {
-        logger = Logger.getLogger(RiskDiceSimulator.class.getName());
     }
 
     public void rollDice() {
@@ -102,7 +103,11 @@ public class RiskDiceSimulator {
     }
 
     public boolean isAttackPossible(){
-        return defenderUnitCount > 0 && attackerUnitCount > 1 && attackerUnitCount > attackerLimit + 1;
+        int possibleUnitsToLose = attackerUnitCount > defenderUnitCount ? Math.min(defenderUnitCount, 2) : Math.min(attackerUnitCount-1, 2);
+        return defenderUnitCount > 0
+                && attackerUnitCount > 1
+                && attackerUnitCount - possibleUnitsToLose >= attackerSafety
+                && defenderUnitCount - possibleUnitsToLose >= defenderSafety;
     }
 
     public void clear(){
@@ -118,22 +123,12 @@ public class RiskDiceSimulator {
         this.defenderUnitCount = defenderUnitCount;
     }
 
-    public void setUnits(int attackerUnitCount, int defenderUnitCount) {
-        this.attackerUnitCount = attackerUnitCount;
-        this.defenderUnitCount = defenderUnitCount;
-    }
-
-    public int[] getUnits() {
-        int[] units = {attackerUnitCount, defenderUnitCount};
-        return units;
-    }
-
-    public int getAttackerLimit() {
-        return attackerLimit;
+    public int getAttackerSafety() {
+        return attackerSafety;
     }
 
     public void setAttackerSafety(int attackerLimit) {
-        this.attackerLimit = attackerLimit;
+        this.attackerSafety = attackerLimit;
     }
 
     public int getDefenderUnitCount() {
@@ -158,5 +153,13 @@ public class RiskDiceSimulator {
 
     public void setDefendersLost(int defendersLost) {
         this.defendersLost = defendersLost;
+    }
+
+    public int getDefenderSafety() {
+        return defenderSafety;
+    }
+
+    public void setDefenderSafety(int defenderSafety) {
+        this.defenderSafety = defenderSafety;
     }
 }

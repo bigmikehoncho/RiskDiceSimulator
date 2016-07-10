@@ -4,8 +4,14 @@
 
     <item
         android:id="@+id/action_results"
-        android:title="@string/menu_main_title"
+        android:title="@string/action_results"
         android:icon="@android:drawable/ic_menu_recent_history"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_info"
+        android:title="@string/action_info"
+        android:icon="@android:drawable/ic_menu_info_details"
         app:showAsAction="ifRoom"/>
 
 </menu>

@@ -3,6 +3,7 @@ package bigmikehoncho.com.riskdicesimulator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = ResultsActivity.class.getSimpleName();
@@ -16,10 +17,13 @@ public class ResultsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ResultsActivityFragment fragmentResults = (ResultsActivityFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment);
-        if(fragmentResults != null){
-            fragmentResults.setDiceSimulator(Data.getInstance().getLatestResults());
+        if(savedInstanceState == null) {
+            ResultsActivityFragment fragmentResults = (ResultsActivityFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment);
+            Log.i(TAG, "fragment results: " + fragmentResults);
+            if (fragmentResults != null) {
+                fragmentResults.setDiceSimulator(Data.getInstance().getLatestResults());
+            }
         }
     }
 

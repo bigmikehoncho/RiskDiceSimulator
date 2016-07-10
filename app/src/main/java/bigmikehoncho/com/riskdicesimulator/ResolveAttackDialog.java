@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -24,13 +25,10 @@ import android.widget.ToggleButton;
 public class ResolveAttackDialog extends DialogFragment {
     private static final String TAG = ResolveAttackDialog.class.getSimpleName();
 
-    private static final String STATE_ATTACKERS_REMAINING = "attackRemaining";
-    private static final String STATE_ATTACKERS_LOST = "attackLost";
-    private static final String STATE_DEFENDERS_REMAINING = "defenseRemaining";
-    private static final String STATE_DEFENDERS_LOST = "defenseLost";
-    private static final String STATE_ATTACKERS_SAFETY = "attackSafety";
+    public static final String ARG_SIMULATOR = "simulator";
+    private static final String STATE_SIMULATOR = "simulator";
     private static final String STATE_TOGGLE = "toggle";
-    private static final long DEFAULT_ATTACK_SPEED = 2000; // 2 seconds
+    private static final long DEFAULT_ATTACK_SPEED = 1750; // 1.75 seconds
 
     private Context mContext;
     private CountDownTimer mTimer;
@@ -87,11 +85,7 @@ public class ResolveAttackDialog extends DialogFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(STATE_ATTACKERS_REMAINING, mDiceSimulator.getAttackerUnitCount());
-        outState.putInt(STATE_ATTACKERS_LOST, mDiceSimulator.getAttackersLost());
-        outState.putInt(STATE_DEFENDERS_REMAINING, mDiceSimulator.getDefenderUnitCount());
-        outState.putInt(STATE_DEFENDERS_LOST, mDiceSimulator.getDefendersLost());
-        outState.putInt(STATE_ATTACKERS_SAFETY, mDiceSimulator.getAttackerLimit());
+        outState.putSerializable(STATE_SIMULATOR, mDiceSimulator);
         outState.putBoolean(STATE_TOGGLE, mTogglePause.isChecked());
     }
 
@@ -105,6 +99,9 @@ public class ResolveAttackDialog extends DialogFragment {
         mDrawPause = ContextCompat.getDrawable(mContext, android.R.drawable.ic_media_pause);
         mDrawPlay = ContextCompat.getDrawable(mContext, android.R.drawable.ic_media_play);
         mAnimBulge = AnimationUtils.loadAnimation(mContext, R.anim.bulge);
+
+        Bundle args = getArguments();
+        mDiceSimulator = (RiskDiceSimulator) args.getSerializable(ARG_SIMULATOR);
     }
 
     @NonNull
@@ -117,6 +114,7 @@ public class ResolveAttackDialog extends DialogFragment {
             mTogglePause.setButtonDrawable(mDrawPause);
             mTogglePause.setChecked(true);
         } else {
+            mDiceSimulator = (RiskDiceSimulator) savedInstanceState.getSerializable(STATE_SIMULATOR);
             if (savedInstanceState.getBoolean(STATE_TOGGLE)) {
                 mTogglePause.setButtonDrawable(mDrawPause);
                 mTogglePause.setChecked(true);
@@ -124,12 +122,6 @@ public class ResolveAttackDialog extends DialogFragment {
                 mTogglePause.setButtonDrawable(mDrawPlay);
                 mTogglePause.setChecked(false);
             }
-            mDiceSimulator = new RiskDiceSimulator();
-            mDiceSimulator.setAttackerUnitCount(savedInstanceState.getInt(STATE_ATTACKERS_REMAINING));
-            mDiceSimulator.setAttackersLost(savedInstanceState.getInt(STATE_ATTACKERS_LOST));
-            mDiceSimulator.setAttackerSafety(savedInstanceState.getInt(STATE_ATTACKERS_SAFETY));
-            mDiceSimulator.setDefenderUnitCount(savedInstanceState.getInt(STATE_DEFENDERS_REMAINING));
-            mDiceSimulator.setDefendersLost(savedInstanceState.getInt(STATE_DEFENDERS_LOST));
         }
 
         if (mDiceSimulator == null) {
@@ -151,10 +143,12 @@ public class ResolveAttackDialog extends DialogFragment {
     private void setFields(View view) {
         mBtnQuickComplete = (Button) view.findViewById(R.id.btn_quick_complete);
         mTogglePause = (ToggleButton) view.findViewById(R.id.btn_toggle_attack);
-        mTextAttackersLost = (TextView) view.findViewById(R.id.text_attackersLost);
-        mTextAttackersRemaining = (TextView) view.findViewById(R.id.text_attackersRemaining);
-        mTextDefendersLost = (TextView) view.findViewById(R.id.text_defendersLost);
-        mTextDefendersRemaining = (TextView) view.findViewById(R.id.text_defendersRemaining);
+
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.layout_attack);
+        mTextAttackersLost = (TextView) ll.findViewById(R.id.text_attackersLost);
+        mTextAttackersRemaining = (TextView) ll.findViewById(R.id.text_attackersRemaining);
+        mTextDefendersLost = (TextView) ll.findViewById(R.id.text_defendersLost);
+        mTextDefendersRemaining = (TextView) ll.findViewById(R.id.text_defendersRemaining);
 
         mTimer = new CountDownTimer(DEFAULT_ATTACK_SPEED, DEFAULT_ATTACK_SPEED / 10) {
             @Override

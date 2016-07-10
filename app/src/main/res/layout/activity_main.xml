@@ -13,8 +13,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_margins"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/activity_margins">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,7 +23,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_attacker_unit_count"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -40,9 +39,10 @@
 
             <LinearLayout
                 android:id="@+id/layout_defender_unit_count"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -56,19 +56,39 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_attacker_lower_limit"
-                android:layout_width="wrap_content"
+                android:id="@+id/layout_attackerSafety"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_below="@id/layout_attacker_unit_count"
+                android:layout_marginTop="12dp"
                 android:orientation="vertical">
 
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/attacker_lower_limit" />
+                    android:text="@string/attacker_safety" />
 
                 <NumberPicker
-                    android:id="@+id/numberPicker_attackerLimit"
+                    android:id="@+id/numberPicker_attackerSafety"
+                    style="@style/MyNumberPicker" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_defenderSafety"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/layout_attacker_unit_count"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewTitles"
+                    android:text="@string/defender_safety" />
+
+                <NumberPicker
+                    android:id="@+id/numberPicker_defenderSafety"
                     style="@style/MyNumberPicker" />
 
             </LinearLayout>
@@ -100,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/roll_dice"
+                android:text="@string/resolve_attack"
                 android:textSize="16sp" />
 
         </LinearLayout>
