@@ -29,6 +29,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:text="@string/safety"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_attackerSafety"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:text="@string/units_remaining"
             android:textSize="14sp" />
 
@@ -76,6 +93,23 @@
             android:text="@string/defender_unit_count"
             android:textAllCaps="true"
             android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="@string/safety"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_defenderSafety"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView

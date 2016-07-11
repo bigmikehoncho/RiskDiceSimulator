@@ -2,7 +2,6 @@ package bigmikehoncho.com.riskdicesimulator;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,6 +42,8 @@ public class ResolveAttackDialog extends DialogFragment {
     private TextView mTextDefendersRemaining;
     private TextView mTextAttackersLost;
     private TextView mTextDefendersLost;
+    private TextView mTextAttackerSafety;
+    private TextView mTextDefenderSafety;
 
     private Animation mAnimBulge;
 
@@ -101,7 +102,7 @@ public class ResolveAttackDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_result, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_resolve_attack, null);
         setFields(view);
 
         if (savedInstanceState == null) {
@@ -130,9 +131,6 @@ public class ResolveAttackDialog extends DialogFragment {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(mContext);
         builder.setView(view);
 
-        /* TODO:: Latest results on main screen. History page possibly (stats).
-        *  Animation for damaged player. Circular progress bar */
-
         return builder.create();
     }
 
@@ -145,6 +143,8 @@ public class ResolveAttackDialog extends DialogFragment {
         mTextAttackersRemaining = (TextView) ll.findViewById(R.id.text_attackersRemaining);
         mTextDefendersLost = (TextView) ll.findViewById(R.id.text_defendersLost);
         mTextDefendersRemaining = (TextView) ll.findViewById(R.id.text_defendersRemaining);
+        mTextAttackerSafety = (TextView) ll.findViewById(R.id.text_attackerSafety);
+        mTextDefenderSafety = (TextView) ll.findViewById(R.id.text_defenderSafety);
 
         mTimer = new CountDownTimer(DEFAULT_ATTACK_SPEED, DEFAULT_ATTACK_SPEED / 10) {
             @Override
@@ -187,6 +187,8 @@ public class ResolveAttackDialog extends DialogFragment {
         setAttackersRemaining(mDiceSimulator.getAttackerUnitCount());
         setDefendersLost(mDiceSimulator.getDefendersLost());
         setDefendersRemaining(mDiceSimulator.getDefenderUnitCount());
+        mTextAttackerSafety.setText(String.valueOf(mDiceSimulator.getAttackerSafety()));
+        mTextDefenderSafety.setText(String.valueOf(mDiceSimulator.getDefenderSafety()));
 
         if(mTogglePause.isChecked()){
             checkShouldStartSimulator();

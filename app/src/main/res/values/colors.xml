@@ -6,6 +6,6 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="attacker">@android:color/holo_red_dark</color>
-    <color name="defender">@android:color/holo_blue_dark</color>
+    <color name="attacker">#E57373</color>
+    <color name="defender">#64B5F6</color>
 </resources>

@@ -25,9 +25,15 @@
     <string name="title_activity_results">Results</string>
     <string name="title_activity_appInfo">App Info</string>
 
+    <string name="results_units_lost">Units Lost</string>
+
     <string name="app_info"><b>Risk Dice Simulator</b> is an app for quickly resolving large battles in the board game Risk.\n
-    Use the main screen to set the variables for the battle.\n\n
-        <b>Safety - </b> automatically stops the simulator so the safety number is not passed.
-        <i>If attack safety is set to 3, the attacking units will not drop below 3 (the simulator may stop at 4 because in a single attack the attacker could lose 2 units).</i>\n\n
-    <b>Results - </b>click the results icon in the toolbar to see the results of the latest battle.</string>
+    Use the main screen to set the variables for the battle.</string>
+    <string name="app_info_safety"><b>Safety - </b> automatically stops the simulator so the safety number is not passed.
+    <i>If attack safety is set to 3, the attacking units will not drop below 3 (the simulator may stop at 4 because in a single attack the attacker could lose 2 units).</i></string>
+    <string name="app_info_results"><b>Results - </b>click the results icon in the toolbar to see the results of the latest battle.</string>
+
+    <string name="acknowledgement_title">This app uses the following libraries:</string>
+    <string name="acknowledgement_MPAndroidChart"><b>MPAndroidChart</b> located here:\n
+        https://github.com/PhilJay/MPAndroidChart</string>
 </resources>
