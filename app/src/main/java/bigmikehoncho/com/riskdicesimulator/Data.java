@@ -1,5 +1,7 @@
 package bigmikehoncho.com.riskdicesimulator;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -20,6 +22,7 @@ public class Data {
     }
 
     public void setLatestResults(RiskDiceSimulator diceSimulator){
+        Log.i(TAG, "setLatestResults: " + diceSimulator);
         mListResults.add(0, diceSimulator);
     }
 

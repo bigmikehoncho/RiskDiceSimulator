@@ -2,6 +2,7 @@ package bigmikehoncho.com.riskdicesimulator;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -77,10 +78,6 @@ public class ResolveAttackDialog extends DialogFragment {
         }
     }
 
-    public void setDiceSimulator(RiskDiceSimulator diceSimulator) {
-        this.mDiceSimulator = diceSimulator;
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -99,9 +96,6 @@ public class ResolveAttackDialog extends DialogFragment {
         mDrawPause = ContextCompat.getDrawable(mContext, android.R.drawable.ic_media_pause);
         mDrawPlay = ContextCompat.getDrawable(mContext, android.R.drawable.ic_media_play);
         mAnimBulge = AnimationUtils.loadAnimation(mContext, R.anim.bulge);
-
-        Bundle args = getArguments();
-        mDiceSimulator = (RiskDiceSimulator) args.getSerializable(ARG_SIMULATOR);
     }
 
     @NonNull
@@ -111,6 +105,8 @@ public class ResolveAttackDialog extends DialogFragment {
         setFields(view);
 
         if (savedInstanceState == null) {
+            Bundle args = getArguments();
+            mDiceSimulator = new RiskDiceSimulator((RiskDiceSimulator) args.getSerializable(ARG_SIMULATOR));
             mTogglePause.setButtonDrawable(mDrawPause);
             mTogglePause.setChecked(true);
         } else {
@@ -204,7 +200,6 @@ public class ResolveAttackDialog extends DialogFragment {
             mTogglePause.setEnabled(false);
             mBtnQuickComplete.setEnabled(false);
         }
-        Data.getInstance().setLatestResults(mDiceSimulator);
     }
 
     private void continualAttack() {
@@ -214,11 +209,12 @@ public class ResolveAttackDialog extends DialogFragment {
     }
 
     @Override
-    public void onDetach() {
-        Log.i(TAG, "onDetach");
+    public void onDestroyView() {
+        Log.i(TAG, "onDestroyView");
         if (mTimer != null) {
             mTimer.cancel();
         }
-        super.onDetach();
+        Data.getInstance().setLatestResults(mDiceSimulator);
+        super.onDestroyView();
     }
 }

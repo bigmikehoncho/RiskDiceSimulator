@@ -18,7 +18,7 @@ public class ResultsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(savedInstanceState == null) {
-            ResultsActivityFragment fragmentResults = (ResultsActivityFragment) getSupportFragmentManager()
+            ResultsFragment fragmentResults = (ResultsFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.fragment);
             Log.i(TAG, "fragment results: " + fragmentResults);
             if (fragmentResults != null) {

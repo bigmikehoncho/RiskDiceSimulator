@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * Use setters to set the amount of attackers and defenders
  */
 public class RiskDiceSimulator implements Serializable{
-    private static final Logger logger = Logger.getLogger(RiskDiceSimulator.class.getName());;
+    private static final Logger logger = Logger.getLogger(RiskDiceSimulator.class.getName());
 
     private int attackerUnitCount;
     private int defenderUnitCount;
@@ -21,6 +21,25 @@ public class RiskDiceSimulator implements Serializable{
     private int defendersLost;
 
     public RiskDiceSimulator() {
+    }
+
+    public RiskDiceSimulator(RiskDiceSimulator simulator){
+        attackerUnitCount = simulator.getAttackerUnitCount();
+        defenderUnitCount = simulator.getDefenderUnitCount();
+        attackerSafety = simulator.getAttackerSafety();
+        defenderSafety = simulator.getDefenderSafety();
+        attackersLost = simulator.getAttackersLost();
+        defendersLost = simulator.getDefendersLost();
+    }
+
+    @Override
+    public String toString() {
+        return "attackers: " + attackerUnitCount +
+                ", lost: " + attackersLost +
+                ", safety: " + attackerSafety +
+                ", defenders: " + defenderUnitCount +
+                ", lost: " + defendersLost +
+                ", safety: " + defenderSafety;
     }
 
     public void rollDice() {

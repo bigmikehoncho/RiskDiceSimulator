@@ -2,9 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     tools:context="bigmikehoncho.com.riskdicesimulator.MainActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -12,19 +9,26 @@
          TextureView, etc. -->
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_margins">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:fillViewport="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/layout_attacker_unit_count"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:background="@color/attacker"
                 android:orientation="vertical">
 
                 <TextView
@@ -35,14 +39,25 @@
                     android:id="@+id/numberPicker_attackerUnitCount"
                     style="@style/MyNumberPicker" />
 
+                <TextView
+                    style="@style/TextViewTitles"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/safety" />
+
+                <NumberPicker
+                    android:id="@+id/numberPicker_attackerSafety"
+                    style="@style/MyNumberPicker" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_defender_unit_count"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:background="@color/defender"
                 android:orientation="vertical">
 
                 <TextView
@@ -53,39 +68,10 @@
                     android:id="@+id/numberPicker_defenderUnitCount"
                     style="@style/MyNumberPicker" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_attackerSafety"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_attacker_unit_count"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
-
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/attacker_safety" />
-
-                <NumberPicker
-                    android:id="@+id/numberPicker_attackerSafety"
-                    style="@style/MyNumberPicker" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_defenderSafety"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/layout_attacker_unit_count"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/TextViewTitles"
-                    android:text="@string/defender_safety" />
+                    android:layout_marginTop="12dp"
+                    android:text="@string/safety" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_defenderSafety"
@@ -93,7 +79,7 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 

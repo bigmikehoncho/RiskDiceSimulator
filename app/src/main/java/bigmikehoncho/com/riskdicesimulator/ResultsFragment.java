@@ -13,10 +13,9 @@ import android.widget.TextView;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ResultsActivityFragment extends Fragment {
-    private static final String TAG = ResultsActivityFragment.class.getSimpleName();
+public class ResultsFragment extends Fragment {
+    private static final String TAG = ResultsFragment.class.getSimpleName();
 
-    public static final String ARG_SIMULATOR = "simulator";
     private static final String STATE_SIMULATOR = "simulator";
 
     private RiskDiceSimulator mDiceSimulator;
@@ -26,7 +25,7 @@ public class ResultsActivityFragment extends Fragment {
     private TextView mTextAttackersLost;
     private TextView mTextDefendersLost;
 
-    public ResultsActivityFragment() {
+    public ResultsFragment() {
 
     }
 
@@ -39,23 +38,19 @@ public class ResultsActivityFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        Log.i(TAG, "onSaveInstanceState: " + mDiceSimulator);
         outState.putSerializable(STATE_SIMULATOR, mDiceSimulator);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if(savedInstanceState == null) {
-//            Bundle args = getArguments();
-//            mDiceSimulator = (RiskDiceSimulator) args.getSerializable(ARG_SIMULATOR);
-//        } else {
-//            mDiceSimulator = (RiskDiceSimulator) savedInstanceState.getSerializable(STATE_SIMULATOR);
-//        }
 
         if(savedInstanceState == null){
 
         } else {
             mDiceSimulator = (RiskDiceSimulator) savedInstanceState.getSerializable(STATE_SIMULATOR);
+            Log.i(TAG, "onCreate: " + mDiceSimulator);
         }
     }
 

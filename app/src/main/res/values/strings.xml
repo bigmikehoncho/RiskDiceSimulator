@@ -28,6 +28,6 @@
     <string name="app_info"><b>Risk Dice Simulator</b> is an app for quickly resolving large battles in the board game Risk.\n
     Use the main screen to set the variables for the battle.\n\n
         <b>Safety - </b> automatically stops the simulator so the safety number is not passed.
-        <i>If attack safety is set to 3, the attacking units will not drop below 3 (the simulator may stop at 4 because in a single attack the attacker could lose 2 units)</i>\n\n
-    <b>Results - </b>click the results icon in the toolbar to see the results of the latest battle</string>
+        <i>If attack safety is set to 3, the attacking units will not drop below 3 (the simulator may stop at 4 because in a single attack the attacker could lose 2 units).</i>\n\n
+    <b>Results - </b>click the results icon in the toolbar to see the results of the latest battle.</string>
 </resources>

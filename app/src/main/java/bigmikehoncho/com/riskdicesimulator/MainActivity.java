@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String STATE_SIMULATOR = "simulator";
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ResolveAttackDialog mResolveAttackDialog;
 
     private View mContent;
-    private Button btnRollDice;
+    private Button btnResolveAttack;
     private NumberPicker npAttackerUnitCount;
     private NumberPicker npDefenderUnitCount;
     private NumberPicker npAttackerSafety;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        recordSimulatorSettings();
+        Log.i(TAG, "onSaveInstanceState: " + mDiceSimulator);
         outState.putSerializable(STATE_SIMULATOR, mDiceSimulator);
     }
 
@@ -38,19 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         setFields();
+        setFromSavedState(savedInstanceState);
         setUI();
-
-        if(savedInstanceState == null){
-            npAttackerSafety.setValue(3);
-        } else {
-            mDiceSimulator = (RiskDiceSimulator) savedInstanceState.getSerializable(STATE_SIMULATOR);
-        }
     }
 
-    private void setFields(){
-        mDiceSimulator = new RiskDiceSimulator();
+    private void setFields() {
         mContent = findViewById(android.R.id.content);
-        btnRollDice = (Button) findViewById(R.id.btn_resolve_attack);
+        btnResolveAttack = (Button) findViewById(R.id.btn_resolve_attack);
         npAttackerUnitCount = (NumberPicker) findViewById(R.id.numberPicker_attackerUnitCount);
         npDefenderUnitCount = (NumberPicker) findViewById(R.id.numberPicker_defenderUnitCount);
         npAttackerSafety = (NumberPicker) findViewById(R.id.numberPicker_attackerSafety);
@@ -64,15 +61,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         npAttackerSafety.setMaxValue(200);
         npDefenderSafety.setMinValue(0);
         npDefenderSafety.setMaxValue(200);
+
+        btnResolveAttack.setOnClickListener(this);
+    }
+
+    private void setFromSavedState(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            mDiceSimulator = new RiskDiceSimulator();
+            mDiceSimulator.setAttackerSafety(3);
+        } else {
+            mDiceSimulator = (RiskDiceSimulator) savedInstanceState.getSerializable(STATE_SIMULATOR);
+        }
+    }
+
+    private void setUI() {
         npAttackerUnitCount.setValue(mDiceSimulator.getAttackerUnitCount());
         npDefenderUnitCount.setValue(mDiceSimulator.getDefenderUnitCount());
         npAttackerSafety.setValue(mDiceSimulator.getAttackerSafety());
         npDefenderSafety.setValue(mDiceSimulator.getDefenderSafety());
-
-        btnRollDice.setOnClickListener(this);
-    }
-
-    private void setUI(){
     }
 
     @Override
@@ -81,13 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_results:
-                if(Data.getInstance().isResultsEmpty()) {
+                if (Data.getInstance().isResultsEmpty()) {
                     Snackbar.make(mContent, R.string.warning_no_results, Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(this, ResultsActivity.class);
@@ -101,28 +105,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    private void resolveAttack(){
+    private void resolveAttack() {
         mDiceSimulator.clear();
-        mDiceSimulator.setAttackerUnitCount(npAttackerUnitCount.getValue());
-        mDiceSimulator.setDefenderUnitCount(npDefenderUnitCount.getValue());
-        mDiceSimulator.setAttackerSafety(npAttackerSafety.getValue());
-        mDiceSimulator.setDefenderSafety(npDefenderSafety.getValue());
+        recordSimulatorSettings();
 
-        if(mDiceSimulator.isAttackPossible()) {
+        if (mDiceSimulator.isAttackPossible()) {
             mResolveAttackDialog = new ResolveAttackDialog();
             Bundle args = new Bundle();
             args.putSerializable(ResolveAttackDialog.ARG_SIMULATOR, mDiceSimulator);
             mResolveAttackDialog.setArguments(args);
-            mResolveAttackDialog.setDiceSimulator(mDiceSimulator);
             mResolveAttackDialog.show(getSupportFragmentManager(), "results");
         } else {
             Snackbar.make(mContent, R.string.warning_attack_not_possible, Snackbar.LENGTH_SHORT).show();
         }
     }
 
+    private void recordSimulatorSettings() {
+        mDiceSimulator.setAttackerUnitCount(npAttackerUnitCount.getValue());
+        mDiceSimulator.setDefenderUnitCount(npDefenderUnitCount.getValue());
+        mDiceSimulator.setAttackerSafety(npAttackerSafety.getValue());
+        mDiceSimulator.setDefenderSafety(npDefenderSafety.getValue());
+    }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_resolve_attack:
                 resolveAttack();
                 break;

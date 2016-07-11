@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top">
 
-        <include android:id="@+id/layout_attack" layout="@layout/attack_layout"/>
+        <include android:id="@+id/layout_attack" layout="@layout/content_attack"/>
 
     </ScrollView>
 
