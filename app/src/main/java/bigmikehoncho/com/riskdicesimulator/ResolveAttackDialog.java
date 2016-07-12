@@ -127,7 +127,6 @@ public class ResolveAttackDialog extends DialogFragment {
         }
 
         setUI();
-        checkShouldStartSimulator();
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(mContext);
         builder.setView(view);
