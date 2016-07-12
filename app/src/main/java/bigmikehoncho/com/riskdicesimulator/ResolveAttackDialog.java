@@ -127,6 +127,7 @@ public class ResolveAttackDialog extends DialogFragment {
         }
 
         setUI();
+        checkShouldStartSimulator();
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(mContext);
         builder.setView(view);
@@ -190,14 +191,14 @@ public class ResolveAttackDialog extends DialogFragment {
         mTextAttackerSafety.setText(String.valueOf(mDiceSimulator.getAttackerSafety()));
         mTextDefenderSafety.setText(String.valueOf(mDiceSimulator.getDefenderSafety()));
 
-        if(mTogglePause.isChecked()){
-            checkShouldStartSimulator();
-        }
+        checkShouldStartSimulator();
     }
 
     private void checkShouldStartSimulator(){
         if (mDiceSimulator.isAttackPossible()) {
-            mTimer.start();
+            if(mTogglePause.isChecked()) {
+                mTimer.start();
+            }
         } else {
             mTogglePause.setEnabled(false);
             mBtnQuickComplete.setEnabled(false);

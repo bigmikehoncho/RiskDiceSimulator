@@ -9,7 +9,7 @@
          TextureView, etc. -->
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="48dp"
         android:fillViewport="true">
 
@@ -33,7 +33,7 @@
 
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/attacker_unit_count" />
+                    android:text="@string/attacker_header" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_attackerUnitCount"
@@ -42,7 +42,10 @@
                 <TextView
                     style="@style/TextViewTitles"
                     android:layout_marginTop="12dp"
-                    android:text="@string/safety" />
+                    android:text="@string/safety"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/ic_lock_black_18dp"
+                    android:drawableEnd="@drawable/ic_lock_black_18dp" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_attackerSafety"
@@ -62,7 +65,7 @@
 
                 <TextView
                     style="@style/TextViewTitles"
-                    android:text="@string/defender_unit_count" />
+                    android:text="@string/defender_header" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_defenderUnitCount"
@@ -71,7 +74,10 @@
                 <TextView
                     style="@style/TextViewTitles"
                     android:layout_marginTop="12dp"
-                    android:text="@string/safety" />
+                    android:text="@string/safety"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/ic_lock_black_18dp"
+                    android:drawableEnd="@drawable/ic_lock_black_18dp" />
 
                 <NumberPicker
                     android:id="@+id/numberPicker_defenderSafety"

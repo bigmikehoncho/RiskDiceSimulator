@@ -8,8 +8,8 @@
     <string name="resolve_attack">Resolve Attack</string>
     <string name="attack_complete">Simulate All</string>
 
-    <string name="attacker_unit_count">Attackers</string>
-    <string name="defender_unit_count">Defenders</string>
+    <string name="attacker_header">Attackers</string>
+    <string name="defender_header">Defenders</string>
     <string name="attacker_safety">Attacker\nSafety</string>
     <string name="defender_safety">Defender\nSafety</string>
     <string name="units_lost">Lost</string>
