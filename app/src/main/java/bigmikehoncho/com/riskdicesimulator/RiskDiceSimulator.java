@@ -2,6 +2,8 @@ package bigmikehoncho.com.riskdicesimulator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +19,16 @@ public class RiskDiceSimulator implements Serializable{
     private int defenderUnitCount;
     private int attackerSafety;
     private int defenderSafety;
+
     private int attackersLost;
     private int defendersLost;
 
+    private List<List<Integer>> attackerLog;
+    private List<List<Integer>> defenderLog;
+
     public RiskDiceSimulator() {
+        attackerLog = new ArrayList<>();
+        defenderLog = new ArrayList<>();
     }
 
     public RiskDiceSimulator(RiskDiceSimulator simulator){
@@ -30,6 +38,8 @@ public class RiskDiceSimulator implements Serializable{
         defenderSafety = simulator.getDefenderSafety();
         attackersLost = simulator.getAttackersLost();
         defendersLost = simulator.getDefendersLost();
+        attackerLog = simulator.getAttackerLog();
+        defenderLog = simulator.getDefenderLog();
     }
 
     @Override
@@ -42,9 +52,7 @@ public class RiskDiceSimulator implements Serializable{
                 ", safety: " + defenderSafety;
     }
 
-    public void rollDice() {
-        attackersLost = 0;
-        defendersLost = 0;
+    public void simulateAll() {
         while (isAttackPossible()) {
             rollOnce();
             logger.log(Level.INFO, "Attackers Remaining: " + attackerUnitCount + " - Defenders Remaining: " + defenderUnitCount);
@@ -63,55 +71,10 @@ public class RiskDiceSimulator implements Serializable{
             defenderDiceCount = 2;
         }
 
-        Random rand = new Random();
-        ArrayList<Integer> attackDice = new ArrayList<>(attackerDiceCount);
-        ArrayList<Integer> defenseDice = new ArrayList<>(defenderDiceCount);
-        for (int i = 0; i < attackerDiceCount; i++) {
-            int attack = rand.nextInt(6);
-            if (i == 0) {
-                attackDice.add(attack);
-            } else {
-                for (int j = 0; j < i; j++) {
-                    if (attack > attackDice.get(j)) {
-                        attackDice.add(j, attack);
-                        break;
-                    } else {
-                        if (j == i - 1) {
-                            attackDice.add(attack);
-                        }
-                        continue;
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < defenderDiceCount; i++) {
-            int defend = rand.nextInt(6);
-            if (i == 0) {
-                defenseDice.add(defend);
-            } else {
-                for (int j = 0; j < i; j++) {
-                    if (defend > defenseDice.get(j)) {
-                        defenseDice.add(j, defend);
-                        break;
-                    } else {
-                        if (j == i - 1) {
-                            defenseDice.add(defend);
-                        }
-                        continue;
-                    }
-                }
-            }
-        }
+        ArrayList<Integer> attackDice = generateDice(attackerDiceCount, 6);
+        ArrayList<Integer> defenseDice = generateDice(defenderDiceCount, 6);
 
-        int[] unitsLost = new int[2]; // First sub = attackersLost - second sub = defendersLost
-
-        for (int i = 0; i < attackerDiceCount && i < defenderDiceCount; i++) {
-            if (attackDice.get(i) > defenseDice.get(i)) {
-                unitsLost[1]++;
-            } else {
-                unitsLost[0]++;
-            }
-        }
+        int[] unitsLost = getDiceResults(attackDice, defenseDice);
         logger.log(Level.INFO, "Attacker Rolls: " + attackDice + " - Defender Rolls: " + defenseDice);
         logger.log(Level.INFO, "Attacker Lost: " + unitsLost[0] + " - Defender Lost: " + unitsLost[1]);
 
@@ -119,6 +82,35 @@ public class RiskDiceSimulator implements Serializable{
         defenderUnitCount -= unitsLost[1];
         attackersLost += unitsLost[0];
         defendersLost += unitsLost[1];
+
+        attackerLog.add(attackDice);
+        defenderLog.add(defenseDice);
+    }
+
+    protected static ArrayList<Integer> generateDice(int diceCount, int sideCount){
+        ArrayList<Integer> dice = new ArrayList<>(diceCount);
+        Random random = new Random();
+        for (int i = 0; i < diceCount; i++) {
+            dice.add(random.nextInt(sideCount));
+        }
+        return dice;
+    }
+
+    /*Find the results from one roll of the attack and defense dice*/
+    protected static int[] getDiceResults(ArrayList<Integer> attackDice, ArrayList<Integer> defenseDice){
+        Collections.sort(attackDice, Collections.<Integer>reverseOrder());
+        Collections.sort(defenseDice, Collections.<Integer>reverseOrder());
+        int[] unitsLost = new int[2]; // First sub = attackersLost, second sub = defendersLost
+
+        for (int i = 0; i < attackDice.size() && i < defenseDice.size(); i++) {
+            if (attackDice.get(i) > defenseDice.get(i)) {
+                unitsLost[1]++;
+            } else {
+                unitsLost[0]++;
+            }
+        }
+
+        return unitsLost;
     }
 
     public boolean isAttackPossible(){
@@ -129,9 +121,11 @@ public class RiskDiceSimulator implements Serializable{
                 && defenderUnitCount - possibleUnitsToLose >= defenderSafety;
     }
 
-    public void clear(){
+    public void clearBattleHistory(){
         attackersLost = 0;
         defendersLost = 0;
+        attackerLog.clear();
+        defenderLog.clear();
     }
 
     public void setAttackerUnitCount(int attackerUnitCount) {
@@ -180,5 +174,21 @@ public class RiskDiceSimulator implements Serializable{
 
     public void setDefenderSafety(int defenderSafety) {
         this.defenderSafety = defenderSafety;
+    }
+
+    public List<Integer> getAttackersLastRoll(){
+        return attackerLog.get(attackerLog.size()-1);
+    }
+
+    public List<Integer> getDefendersLastRoll(){
+        return defenderLog.get(defenderLog.size()-1);
+    }
+
+    public List<List<Integer>> getAttackerLog() {
+        return attackerLog;
+    }
+
+    public List<List<Integer>> getDefenderLog() {
+        return defenderLog;
     }
 }

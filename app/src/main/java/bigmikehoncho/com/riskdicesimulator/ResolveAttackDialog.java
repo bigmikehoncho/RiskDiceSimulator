@@ -176,7 +176,7 @@ public class ResolveAttackDialog extends DialogFragment {
                 if (mTimer != null) {
                     mTimer.cancel();
                 }
-                mDiceSimulator.rollDice();
+                mDiceSimulator.simulateAll();
                 setUI();
             }
         });

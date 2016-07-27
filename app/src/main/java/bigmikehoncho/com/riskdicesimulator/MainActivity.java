@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void resolveAttack() {
-        mDiceSimulator.clear();
+        mDiceSimulator.clearBattleHistory();
         recordSimulatorSettings();
 
         if (mDiceSimulator.isAttackPossible()) {
